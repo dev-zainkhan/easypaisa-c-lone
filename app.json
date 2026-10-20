@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "easypaisa",
+    "slug": "easypaisa-clone",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "android": {
+      "package": "com.assessment.easypaisaclone",
+      "edgeToEdgeEnabled": true
+    },
+    "ios": {
+      "bundleIdentifier": "com.assessment.easypaisaclone"
+    }
+  }
+}

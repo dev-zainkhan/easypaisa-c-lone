@@ -1,0 +1,62 @@
+# Builds an installable Android APK on GitHub's servers (nothing is built locally)
+# and publishes it as a GitHub Release, so you get a direct download link.
+name: Build Android APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install dependencies
+        run: |
+          npm install --no-audit --no-fund
+          npx expo install --fix
+
+      - name: Bundle check (fails fast on JS errors)
+        run: npx expo export --platform android --output-dir dist
+
+      - name: Generate native Android project
+        run: npx expo prebuild --platform android --no-install
+
+      - name: Build release APK
+        working-directory: android
+        env:
+          GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx4g -XX:MaxMetaspaceSize=1g"
+        run: ./gradlew assembleRelease --no-daemon -PreactNativeArchitectures=arm64-v8a,armeabi-v7a
+
+      - name: Rename APK
+        run: cp android/app/build/outputs/apk/release/app-release.apk easypaisa-clone.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: easypaisa-clone-apk
+          path: easypaisa-clone.apk
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: APK build ${{ github.run_number }}
+          body: Install easypaisa-clone.apk on an Android phone (allow "Install unknown apps").
+          files: easypaisa-clone.apk

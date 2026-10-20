@@ -1,0 +1,33 @@
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { WalletProvider } from './src/context/WalletContext'
+import HomeScreen from './src/screens/HomeScreen'
+import TransferScreen from './src/screens/TransferScreen'
+import EnterAmountScreen from './src/screens/EnterAmountScreen'
+import ConfirmTransactionScreen from './src/screens/ConfirmTransactionScreen'
+import TransactionSuccessScreen from './src/screens/TransactionSuccessScreen'
+
+const Stack = createNativeStackNavigator()
+
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <WalletProvider>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Transfer" component={TransferScreen} />
+            <Stack.Screen name="EnterAmount" component={EnterAmountScreen} />
+            <Stack.Screen name="ConfirmTransaction" component={ConfirmTransactionScreen} />
+            <Stack.Screen
+              name="TransactionSuccess"
+              component={TransactionSuccessScreen}
+              options={{ gestureEnabled: false, animation: 'fade' }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </WalletProvider>
+    </SafeAreaProvider>
+  )
+}
