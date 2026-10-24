@@ -119,7 +119,7 @@ export default function ProfileDrawer({ visible, onClose, onNavigate }) {
           <View style={[styles.divider, { marginTop: s(22) }]} />
           <View style={{ flex: 1, minHeight: s(40) }} />
 
-          <View style={[styles.footer, { paddingBottom: insets.bottom + s(46) }]}>
+          <View style={[styles.footer, { paddingBottom: insets.bottom + s(2) }]}>
             <Text style={styles.version}>Version {profile.appVersion}</Text>
             <View style={styles.langToggle}>
               {[

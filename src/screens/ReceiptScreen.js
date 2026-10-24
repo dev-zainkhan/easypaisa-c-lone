@@ -21,7 +21,8 @@ export default function ReceiptScreen({ navigation, route }) {
   const [busy, setBusy] = useState(false)
 
   // Renders the receipt card to a PNG (same as the real app's share/download).
-  const snapshot = () => captureRef(cardRef, { format: 'png', quality: 1, result: 'tmpfile' })
+  const snapshot = () =>
+    captureRef(cardRef, { format: 'png', quality: 1, result: 'tmpfile', fileName: `easypaisa-receipt-${tx.id}` })
 
   const onShare = async () => {
     try {
@@ -66,7 +67,7 @@ export default function ReceiptScreen({ navigation, route }) {
           <Text style={styles.title}>Transaction Successful</Text>
           <Text style={styles.subtitle}>You have sent money.</Text>
 
-          <View style={styles.divider} />
+          <View style={[styles.divider, { marginTop: s(36) }]} />
           <Row label="Transaction ID" value={`#${tx.id}`} strong />
           <Row label="Date & Time" value={formatReceiptDate(tx.date)} />
           <Row label="Funding Source" value="easypaisa Account" />
@@ -91,7 +92,7 @@ export default function ReceiptScreen({ navigation, route }) {
             <Text style={styles.totalLabel}>Total Amount</Text>
             <Text style={styles.totalValue}>{formatRs(tx.amount + (tx.fee || 0), 2)}</Text>
           </View>
-          <View style={[styles.divider, { marginHorizontal: s(6), marginTop: s(16) }]} />
+          <View style={[styles.divider, { marginHorizontal: s(6), marginTop: s(20) }]} />
 
           <View style={styles.paidVia}>
             <Text style={styles.paidText}>Paid via</Text>
@@ -158,12 +159,12 @@ const styles = StyleSheet.create({
   coin: { alignSelf: 'center', marginTop: s(30) },
   title: { marginTop: s(20), textAlign: 'center', fontSize: s(36), color: colors.ink, ...font.semibold },
   subtitle: { marginTop: s(8), textAlign: 'center', fontSize: s(23), color: colors.text },
-  divider: { height: 1.5, backgroundColor: '#DADADF', marginTop: s(32), marginBottom: s(14) },
-  section: { fontSize: s(23), color: colors.ink, marginTop: s(10), marginBottom: s(4), ...font.semibold },
+  divider: { height: 1.5, backgroundColor: '#DADADF', marginTop: s(12), marginBottom: s(12) },
+  section: { fontSize: s(23), color: colors.ink, marginTop: s(13), marginBottom: s(12), ...font.semibold },
   row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: s(53), gap: s(20) },
   rowLabel: { fontSize: s(23), color: colors.text },
   rowValue: { flexShrink: 1, textAlign: 'right', fontSize: s(23), color: colors.ink },
-  totalRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: s(10) },
+  totalRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: s(14) },
   totalLabel: { fontSize: s(26), color: colors.ink, ...font.semibold },
   totalValue: { fontSize: s(32), color: colors.ink, ...font.semibold },
   paidVia: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: s(12), marginTop: s(24) },

@@ -12,7 +12,9 @@ All data is mock data; no real accounts are accessed.
 | Search | Matches favourites; for a full 11-digit number calls the **account-title lookup** (loading / found / not-found / error) |
 | Enter Amount | Large amount input, live balance, optional message, Next enabled only for amount > 0 |
 | Confirm Transaction | Pay From / Pay To (re-verifies title) / Payment Summary / Favourite toggle / Send Now with balance check |
-| Success | Animated coin flip (e → ✓) with ray burst, amount, recipient, Back to home, Share, Receipt (TID + real date/time) |
+| Success | Animated coin flip (e → ✓) with ray burst, amount, recipient, Back to home, Share, Receipt |
+| Receipt | Full-screen receipt (ID, real date/time, funding source, sent to/by, charges, total, "Paid via easypaisa"); Share as image, Download to gallery |
+| Profile drawer | Avatar → side drawer with account details, expandable My Account / More, version and language toggle |
 
 ## Engineering notes
 - **Device-proportional sizing** – every dimension is measured from 720px reference screenshots and scaled with `s()` (`src/theme.js`), so layouts match on any screen width.
