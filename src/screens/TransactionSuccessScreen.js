@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
-import { Animated, BackHandler, Easing, Modal, Pressable, Share, StyleSheet, View } from 'react-native'
+import { useCallback, useEffect, useRef } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import { Animated, BackHandler, Easing, Pressable, Share, StyleSheet, View } from 'react-native'
 import { Text } from '../components/AppText'
 import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar'
@@ -15,7 +16,6 @@ const RAY_ANGLES = [-70, -20, 25, 70, 110, 160, 200, 250]
 export default function TransactionSuccessScreen({ navigation, route }) {
   const { tx } = route.params
   const insets = useSafeAreaInsets()
-  const [receiptOpen, setReceiptOpen] = useState(false)
 
   const enter = useRef(new Animated.Value(0)).current
   const flip = useRef(new Animated.Value(0)).current
@@ -33,13 +33,15 @@ export default function TransactionSuccessScreen({ navigation, route }) {
   const goHome = () => navigation.popToTop()
 
   // Hardware back on Android returns home instead of the confirm screen.
-  useEffect(() => {
-    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
-      goHome()
-      return true
-    })
-    return () => sub.remove()
-  }, [])
+  useFocusEffect(
+    useCallback(() => {
+      const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+        goHome()
+        return true
+      })
+      return () => sub.remove()
+    }, []),
+  )
 
   const receiptText = [
     'easypaisa – Transaction Receipt',
@@ -119,58 +121,14 @@ export default function TransactionSuccessScreen({ navigation, route }) {
         </Pressable>
         <Pressable
           style={({ pressed }) => [styles.circleBtn, pressed && styles.pressed]}
-          onPress={() => setReceiptOpen(true)}
+          onPress={() => navigation.navigate('Receipt', { tx })}
           accessibilityLabel="Receipt"
         >
           <ReceiptIcon size={s(40)} />
         </Pressable>
       </View>
 
-      <ReceiptModal visible={receiptOpen} tx={tx} onClose={() => setReceiptOpen(false)} onShare={onShare} />
     </LinearGradient>
-  )
-}
-
-function ReceiptModal({ visible, tx, onClose, onShare }) {
-  const insets = useSafeAreaInsets()
-  const rows = [
-    ['Transaction ID', tx.id],
-    ['Date & Time', formatDateTime(tx.date)],
-    ['Sent To', tx.to.fullName],
-    ['Account', `easypaisa · ${tx.to.mobile}`],
-    ['Amount', formatRs(tx.amount, 2)],
-    ['Fee (including tax)', tx.fee ? formatRs(tx.fee, 2) : 'Free'],
-    tx.message ? ['Message', tx.message] : null,
-  ].filter(Boolean)
-
-  return (
-    <Modal visible={visible} transparent animationType="slide" statusBarTranslucent onRequestClose={onClose}>
-      <Pressable style={styles.backdrop} onPress={onClose}>
-        <Pressable style={[styles.sheet, { paddingBottom: insets.bottom + s(36) }]} onPress={() => {}}>
-          <View style={styles.grabber} />
-          <View style={styles.sheetHead}>
-            <EpLogo size={s(54)} />
-            <Text style={styles.sheetTitle}>Transaction Receipt</Text>
-          </View>
-          <View style={styles.statusPill}>
-            <Text style={styles.statusText}>Successful</Text>
-          </View>
-          {rows.map(([k, v]) => (
-            <View key={k} style={styles.receiptRow}>
-              <Text style={styles.receiptKey}>{k}</Text>
-              <Text style={styles.receiptVal}>{v}</Text>
-            </View>
-          ))}
-          <View style={styles.receiptTotal}>
-            <Text style={styles.totalText}>Total Amount</Text>
-            <Text style={styles.totalText}>{formatRs(tx.amount + (tx.fee || 0), 2)}</Text>
-          </View>
-          <Pressable style={styles.shareWide} onPress={onShare}>
-            <Text style={styles.shareWideText}>Share Receipt</Text>
-          </Pressable>
-        </Pressable>
-      </Pressable>
-    </Modal>
   )
 }
 
@@ -235,46 +193,4 @@ const styles = StyleSheet.create({
   },
   pressed: { opacity: 0.6 },
 
-  backdrop: { flex: 1, backgroundColor: colors.overlay, justifyContent: 'flex-end' },
-  sheet: {
-    backgroundColor: colors.white,
-    borderTopLeftRadius: s(36),
-    borderTopRightRadius: s(36),
-    paddingHorizontal: s(42),
-    paddingTop: s(16),
-  },
-  grabber: { alignSelf: 'center', width: s(80), height: s(8), borderRadius: s(4), backgroundColor: '#DADADE', marginBottom: s(24) },
-  sheetHead: { flexDirection: 'row', alignItems: 'center', gap: s(16) },
-  sheetTitle: { fontSize: s(30), color: colors.ink, ...font.semibold },
-  statusPill: {
-    alignSelf: 'flex-start',
-    marginTop: s(18),
-    marginBottom: s(14),
-    backgroundColor: colors.mintPill,
-    borderRadius: s(20),
-    paddingHorizontal: s(20),
-    paddingVertical: s(6),
-  },
-  statusText: { color: colors.brandText, fontSize: s(20), ...font.semibold },
-  receiptRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: s(16),
-    borderBottomWidth: 1,
-    borderBottomColor: '#EFEFF1',
-    gap: s(20),
-  },
-  receiptKey: { fontSize: s(22), color: colors.muted },
-  receiptVal: { flexShrink: 1, textAlign: 'right', fontSize: s(22), color: colors.ink, ...font.medium },
-  receiptTotal: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: s(22) },
-  totalText: { fontSize: s(28), color: colors.ink, ...font.semibold },
-  shareWide: {
-    marginTop: s(10),
-    height: s(82),
-    borderRadius: s(41),
-    backgroundColor: colors.brand,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  shareWideText: { color: colors.white, fontSize: s(23), ...font.semibold },
 })

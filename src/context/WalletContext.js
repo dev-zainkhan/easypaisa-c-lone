@@ -9,7 +9,7 @@ export function WalletProvider({ children }) {
 
   const send = ({ to, amount, message }) => {
     const tx = {
-      id: 'TID' + Math.floor(10000000000 + Math.random() * 89999999999),
+      id: String(Math.floor(10000000000 + Math.random() * 89999999999)),
       to,
       amount,
       fee: 0,

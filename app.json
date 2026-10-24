@@ -11,6 +11,17 @@
     },
     "ios": {
       "bundleIdentifier": "com.assessment.easypaisaclone"
-    }
+    },
+    "plugins": [
+      "expo-font",
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow easypaisa to save transaction receipts to your gallery.",
+          "savePhotosPermission": "Allow easypaisa to save transaction receipts to your gallery.",
+          "isAccessMediaLocationEnabled": false
+        }
+      ]
+    ]
   }
 }

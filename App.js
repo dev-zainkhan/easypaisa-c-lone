@@ -7,6 +7,7 @@ import HomeScreen from './src/screens/HomeScreen'
 import TransferScreen from './src/screens/TransferScreen'
 import EnterAmountScreen from './src/screens/EnterAmountScreen'
 import ConfirmTransactionScreen from './src/screens/ConfirmTransactionScreen'
+import ReceiptScreen from './src/screens/ReceiptScreen'
 import TransactionSuccessScreen from './src/screens/TransactionSuccessScreen'
 
 const Stack = createNativeStackNavigator()
@@ -29,6 +30,7 @@ export default function App() {
               component={TransactionSuccessScreen}
               options={{ gestureEnabled: false, animation: 'fade' }}
             />
+            <Stack.Screen name="Receipt" component={ReceiptScreen} options={{ animation: 'slide_from_bottom' }} />
           </Stack.Navigator>
         </NavigationContainer>
       </WalletProvider>

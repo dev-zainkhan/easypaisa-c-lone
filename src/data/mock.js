@@ -38,3 +38,12 @@ export const profile = {
   email: 'ahmed.hassan@gmail.com',
   appVersion: 'V.2.10.11',
 }
+
+// Receipt format used by the app: "23-Oct-2026, 1:29 PM"
+export const formatReceiptDate = (input = new Date()) => {
+  const d = new Date(input)
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const h = d.getHours() % 12 || 12
+  const m = String(d.getMinutes()).padStart(2, '0')
+  return `${String(d.getDate()).padStart(2, '0')}-${months[d.getMonth()]}-${d.getFullYear()}, ${h}:${m} ${d.getHours() < 12 ? 'AM' : 'PM'}`
+}
