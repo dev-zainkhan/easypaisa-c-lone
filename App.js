@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { useFonts, Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold } from '@expo-google-fonts/inter'
 import { WalletProvider } from './src/context/WalletContext'
 import HomeScreen from './src/screens/HomeScreen'
 import TransferScreen from './src/screens/TransferScreen'
@@ -11,6 +12,9 @@ import TransactionSuccessScreen from './src/screens/TransactionSuccessScreen'
 const Stack = createNativeStackNavigator()
 
 export default function App() {
+  const [fontsLoaded] = useFonts({ Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold })
+  if (!fontsLoaded) return null
+
   return (
     <SafeAreaProvider>
       <WalletProvider>

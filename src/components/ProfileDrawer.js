@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { Alert, Animated, Dimensions, Easing, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Alert, Animated, Dimensions, Easing, Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native'
+import { Text } from './AppText'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Svg, { Ellipse, Line } from 'react-native-svg'
@@ -78,7 +79,7 @@ export default function ProfileDrawer({ visible, onClose, onNavigate }) {
               onPress={onClose}
               hitSlop={12}
               accessibilityLabel="Close profile"
-              style={[styles.back, { top: insets.top + s(2) }]}
+              style={[styles.back, { top: insets.top - s(20) }]}
             >
               <ChevronLeft size={s(46)} color={colors.ink} />
             </Pressable>
@@ -118,7 +119,7 @@ export default function ProfileDrawer({ visible, onClose, onNavigate }) {
           <View style={[styles.divider, { marginTop: s(22) }]} />
           <View style={{ flex: 1, minHeight: s(40) }} />
 
-          <View style={[styles.footer, { paddingBottom: insets.bottom + s(24) }]}>
+          <View style={[styles.footer, { paddingBottom: insets.bottom + s(46) }]}>
             <Text style={styles.version}>Version {profile.appVersion}</Text>
             <View style={styles.langToggle}>
               {[
@@ -232,11 +233,11 @@ const styles = StyleSheet.create({
   },
   avatarText: { fontSize: s(64), color: colors.ink, ...font.semibold },
 
-  identity: { paddingHorizontal: s(34), marginTop: s(32) },
+  identity: { paddingHorizontal: s(34), marginTop: s(26) },
   name: { fontSize: s(32), color: colors.ink, letterSpacing: 0.2, ...font.semibold },
-  phone: { marginTop: s(18), fontSize: s(24), color: '#5A5A63' },
-  email: { marginTop: s(14), fontSize: s(22), color: '#5A5A63' },
-  divider: { height: 1, backgroundColor: '#E3E3E6', marginHorizontal: s(32), marginTop: s(30) },
+  phone: { marginTop: s(12), fontSize: s(24), color: '#5A5A63' },
+  email: { marginTop: s(8), fontSize: s(22), color: '#5A5A63' },
+  divider: { height: 1, backgroundColor: '#E3E3E6', marginHorizontal: s(32), marginTop: s(24) },
 
   menuRow: { flexDirection: 'row', alignItems: 'center', height: s(82), paddingLeft: s(38), paddingRight: s(44) },
   menuLabel: { flex: 1, marginLeft: s(30), fontSize: s(26), color: colors.ink, ...font.medium },

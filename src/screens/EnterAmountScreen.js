@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
-import { KeyboardAvoidingView, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { KeyboardAvoidingView, Pressable, StyleSheet, View } from 'react-native'
+import { Text, TextInput } from '../components/AppText'
 import { StatusBar } from 'expo-status-bar'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useWallet } from '../context/WalletContext'

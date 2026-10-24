@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Alert, Dimensions, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Alert, Dimensions, Pressable, ScrollView, StyleSheet, View } from 'react-native'
+import { Text } from '../components/AppText'
 import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'

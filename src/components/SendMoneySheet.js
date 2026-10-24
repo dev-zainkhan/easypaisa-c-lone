@@ -1,4 +1,5 @@
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Modal, Pressable, StyleSheet, View } from 'react-native'
+import { Text } from './AppText'
 import { colors, font, s } from '../theme'
 import { EpLogo } from './Illustrations'
 import { BankIcon, CnicIcon, RaastIcon, WalletIcon } from './Icons'
