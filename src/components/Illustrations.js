@@ -1,3 +1,4 @@
+import { Image, View } from 'react-native'
 import Svg, { Path, Circle, Ellipse, Rect, Defs, LinearGradient, Stop, Text as SvgText } from 'react-native-svg'
 
 // Lightweight vector stand-ins for the app's 3D illustrations.
@@ -7,14 +8,11 @@ const GREEN = '#13B157'
 const GREEN_DARK = '#0B8A41'
 const GOLD = '#D9B36A'
 
-export const EpLogo = ({ size = 40 }) => (
-  <Svg width={size} height={size} viewBox="0 0 48 48">
-    <Path
-      d="M24 7C14.6 7 8 11.8 8 18.5S14.6 29.5 24 29.5c5.2 0 9.4-1.2 12.3-3.4l-3.4-4.2c-2.1 1.3-5 2.1-8.9 2.1-4.8 0-8.4-1.5-9.4-3.8h23.6c.5-.6.8-1.3.8-2.2C39 11.5 32.7 7 24 7zm-8.9 9.3c1-2.4 4.5-4 8.9-4s7.9 1.6 8.9 4H15.1z"
-      fill="#23222B"
-    />
-    <Path d="M9.5 30.5C11.5 37 17.4 41 24.6 41c5.6 0 10.4-2.2 13.4-5.8" stroke={GREEN} strokeWidth={6} strokeLinecap="round" fill="none" />
-  </Svg>
+// Official easypaisa "e" mark (transparent PNG cut from the brand logo).
+const LOGO = require('../../assets/ep-logo.png')
+
+export const EpLogo = ({ size = 40, tintColor }) => (
+  <Image source={LOGO} style={{ width: size, height: size, tintColor }} resizeMode="contain" />
 )
 
 export const Mascot = ({ size = 32 }) => (
@@ -156,7 +154,7 @@ export const HeadsetArt = ({ size = 80 }) => (
 
 // ---------- Transaction success coin ----------
 
-export const CoinFace = ({ size = 220, variant = 'e' }) => (
+const CoinBase = ({ size, variant }) => (
   <Svg width={size} height={size} viewBox="0 0 100 100">
     <Defs>
       <LinearGradient id="coinRim" x1="0" y1="0" x2="1" y2="1">
@@ -174,21 +172,7 @@ export const CoinFace = ({ size = 220, variant = 'e' }) => (
     <Circle cx="50" cy="50" r="47" fill="url(#coinRim)" />
     <Circle cx="50" cy="50" r="42" fill="url(#coinFace)" />
     <Circle cx="50" cy="50" r="42" fill="none" stroke="#FFF3D6" strokeWidth={0.8} opacity={0.6} />
-    {variant === 'e' ? (
-      <>
-        <Path
-          d="M50 30c-11 0-18 5.6-18 13s7 12.5 18 12.5c6 0 10.8-1.4 14-3.9l-3.9-4.8c-2.4 1.5-5.7 2.4-10.1 2.4-5.5 0-9.6-1.7-10.7-4.3h26.9c.6-.7.9-1.5.9-2.5C67.1 35.1 60 30 50 30zm-10.1 10.6c1.1-2.7 5.1-4.6 10.1-4.6s9 1.9 10.1 4.6H39.9z"
-          fill="#1E9E4E"
-          transform="translate(1.2 1.2)"
-        />
-        <Path
-          d="M50 30c-11 0-18 5.6-18 13s7 12.5 18 12.5c6 0 10.8-1.4 14-3.9l-3.9-4.8c-2.4 1.5-5.7 2.4-10.1 2.4-5.5 0-9.6-1.7-10.7-4.3h26.9c.6-.7.9-1.5.9-2.5C67.1 35.1 60 30 50 30zm-10.1 10.6c1.1-2.7 5.1-4.6 10.1-4.6s9 1.9 10.1 4.6H39.9z"
-          fill="#33D46F"
-        />
-        <Path d="M34 58c2.3 7.4 9 12 17.2 12 6.4 0 11.8-2.5 15.2-6.6" stroke="#1E9E4E" strokeWidth={7.5} strokeLinecap="round" fill="none" transform="translate(1.2 1.2)" />
-        <Path d="M34 58c2.3 7.4 9 12 17.2 12 6.4 0 11.8-2.5 15.2-6.6" stroke="#33D46F" strokeWidth={7} strokeLinecap="round" fill="none" />
-      </>
-    ) : (
+    {variant === 'check' && (
       <>
         <Path d="M30 50l13 13 27-27" stroke="#0E7F3A" strokeWidth={11} strokeLinecap="round" strokeLinejoin="round" fill="none" transform="translate(2 2.5)" />
         <Path d="M30 50l13 13 27-27" stroke="#22C55E" strokeWidth={10} strokeLinecap="round" strokeLinejoin="round" fill="none" />
@@ -197,6 +181,20 @@ export const CoinFace = ({ size = 220, variant = 'e' }) => (
     )}
   </Svg>
 )
+
+// Coin face with the real logo embossed in green (logo image tinted, with a darker offset for depth).
+export const CoinFace = ({ size = 220, variant = 'e' }) => {
+  if (variant !== 'e') return <CoinBase size={size} variant={variant} />
+  const mark = size * 0.46
+  const pos = { position: 'absolute', left: (size - mark) / 2, top: (size - mark) / 2 }
+  return (
+    <View style={{ width: size, height: size }}>
+      <CoinBase size={size} variant="e" />
+      <Image source={LOGO} style={[pos, { width: mark, height: mark, tintColor: '#178C45', transform: [{ translateX: size * 0.014 }, { translateY: size * 0.016 }] }]} />
+      <Image source={LOGO} style={[pos, { width: mark, height: mark, tintColor: '#33D46F' }]} />
+    </View>
+  )
+}
 
 export const Leaf = ({ size = 30 }) => (
   <Svg width={size} height={size * 0.6} viewBox="0 0 50 30">

@@ -10,9 +10,9 @@ import { BackButton, ScreenHeader, SquareButton } from '../components/UI'
 import { AccountCard, ChevronRight, Close, Search, User } from '../components/Icons'
 import { EpLogo } from '../components/Illustrations'
 
-export default function TransferScreen({ navigation }) {
+export default function TransferScreen({ navigation, route }) {
   const insets = useSafeAreaInsets()
-  const [tab, setTab] = useState('send') // 'send' | 'history'
+  const [tab, setTab] = useState(route.params?.tab ?? 'send') // 'send' | 'history'
   const [mode, setMode] = useState('mobile') // 'mobile' | 'digital'
   const [searching, setSearching] = useState(false)
   const [query, setQuery] = useState('')

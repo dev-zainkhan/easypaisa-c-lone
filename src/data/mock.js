@@ -31,3 +31,10 @@ export const formatDateTime = (input = new Date()) => {
   const time = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })
   return `${date}, ${time}`
 }
+
+export const profile = {
+  name: 'Ahmed Hassan',
+  mobile: '03001112233',
+  email: 'ahmed.hassan@gmail.com',
+  appVersion: 'V.2.10.11',
+}

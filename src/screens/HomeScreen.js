@@ -8,6 +8,7 @@ import { formatRs } from '../data/mock'
 import { colors, font, s } from '../theme'
 import BottomTabBar, { TAB_BAR_HEIGHT } from '../components/BottomTabBar'
 import SendMoneySheet from '../components/SendMoneySheet'
+import ProfileDrawer from '../components/ProfileDrawer'
 import {
   Bell, BillIcon, ChevronDown, DonationIcon, EasycashIcon, EnterWinIcon, Eye, EyeOff, GameIcon,
   InsuranceIcon, LoadIcon, Logout, PlusCircle, QrIcon, SavingsIcon, SeeAllIcon, SendMoneyIcon,
@@ -68,6 +69,7 @@ export default function HomeScreen({ navigation }) {
   const { balance, balanceHidden, setBalanceHidden } = useWallet()
   const [page, setPage] = useState(0)
   const [sheetOpen, setSheetOpen] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(false)
 
   const onService = (item) => (item.key === 'send' ? setSheetOpen(true) : comingSoon(item.label))
 
@@ -84,9 +86,9 @@ export default function HomeScreen({ navigation }) {
 
       {/* Header stays fixed while content scrolls under it */}
       <View style={styles.header}>
-        <View style={styles.avatar}>
+        <Pressable style={styles.avatar} onPress={() => setDrawerOpen(true)} accessibilityLabel="Open profile">
           <Text style={styles.avatarText}>A</Text>
-        </View>
+        </Pressable>
         <Text style={styles.hey}>Hey There 👋</Text>
         <Pressable hitSlop={10} onPress={() => comingSoon('Notifications')} style={styles.headerIcon}>
           <Bell size={s(46)} />
@@ -176,7 +178,7 @@ export default function HomeScreen({ navigation }) {
                   style={({ pressed }) => [styles.tile, pressed && { opacity: 0.7 }]}
                 >
                   <item.Icon size={s(62)} />
-                  <Text style={styles.tileLabel} numberOfLines={1}>
+                  <Text style={styles.tileLabel} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.85}>
                     {item.label}
                   </Text>
                 </Pressable>
@@ -224,6 +226,14 @@ export default function HomeScreen({ navigation }) {
 
       <BottomTabBar active="home" />
       <SendMoneySheet visible={sheetOpen} onClose={() => setSheetOpen(false)} onSelect={onSendOption} />
+      <ProfileDrawer
+        visible={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        onNavigate={(screen, params) => {
+          setDrawerOpen(false)
+          navigation.navigate(screen, params)
+        }}
+      />
     </View>
   )
 }
@@ -245,7 +255,8 @@ function PromoCard({ gradient, Art, title, headline, sub }) {
   )
 }
 
-const TILE_W = s(204)
+const GRID_GAP = s(14)
+const TILE_W = Math.floor((SCREEN_W - SIDE * 2 - GRID_GAP * 2) / 3)
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.bg },
@@ -316,7 +327,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignContent: 'flex-start',
-    columnGap: (SCREEN_W - SIDE * 2 - TILE_W * 3) / 2,
+    justifyContent: 'space-between',
     rowGap: s(15),
   },
   tile: {

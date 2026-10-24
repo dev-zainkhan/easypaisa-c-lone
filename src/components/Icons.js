@@ -317,3 +317,53 @@ export const TabZen = ({ size }) => (
   </Icon>
 )
 
+
+// ---------- profile drawer ----------
+
+export const ChevronUp = ({ size = 24, color = INK, strokeWidth = 1.8 }) => (
+  <Icon size={size} viewBox="0 0 24 24">
+    <Path d="M6 15l6-6 6 6" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+  </Icon>
+)
+
+export const MenuUser = ({ size }) => (
+  <Icon size={size} viewBox="0 0 24 24">
+    <Circle cx="12" cy="7" r="3.2" stroke={GREEN} strokeWidth={1.6} />
+    <Path d="M4.5 20c.6-4 3.7-6.2 7.5-6.2s6.9 2.2 7.5 6.2" stroke={INK} strokeWidth={1.6} strokeLinecap="round" />
+  </Icon>
+)
+
+export const MenuLink = ({ size }) => (
+  <Icon size={size} viewBox="0 0 24 24">
+    <Path d="M10 14l4-4" stroke={GREEN} strokeWidth={1.6} strokeLinecap="round" />
+    <Path d="M8.5 11.5l-2.8 2.8a3.4 3.4 0 004.8 4.8l2.8-2.8M15.5 12.5l2.8-2.8a3.4 3.4 0 00-4.8-4.8l-2.8 2.8" stroke={INK} strokeWidth={1.6} strokeLinecap="round" />
+  </Icon>
+)
+
+export const MenuApprovals = ({ size }) => (
+  <Icon size={size} viewBox="0 0 24 24">
+    <Path d="M20.5 12a8.5 8.5 0 11-4-7.2" stroke={INK} strokeWidth={1.6} strokeLinecap="round" />
+    <Path d="M8 12l3 3 7.5-7.5" stroke={GREEN} strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" />
+  </Icon>
+)
+
+export const MenuGear = ({ size }) => (
+  <Icon size={size} viewBox="0 0 24 24">
+    <Path
+      d="M10.3 2.8h3.4l.5 2.4 1.6.9 2.3-.8 1.7 2.9-1.8 1.6v1.9l1.8 1.6-1.7 2.9-2.3-.8-1.6.9-.5 2.4h-3.4l-.5-2.4-1.6-.9-2.3.8-1.7-2.9 1.8-1.6v-1.9L4.2 8.2l1.7-2.9 2.3.8 1.6-.9z"
+      stroke={INK}
+      strokeWidth={1.5}
+      strokeLinejoin="round"
+    />
+    <Circle cx="12" cy="12" r="3" stroke={GREEN} strokeWidth={1.6} />
+  </Icon>
+)
+
+export const MenuMore = ({ size }) => (
+  <Icon size={size} viewBox="0 0 24 24">
+    <Circle cx="7" cy="7" r="3.3" stroke={INK} strokeWidth={1.5} />
+    <Circle cx="17" cy="7" r="3.3" stroke={INK} strokeWidth={1.5} />
+    <Circle cx="7" cy="17" r="3.3" stroke={INK} strokeWidth={1.5} />
+    <Circle cx="17" cy="17" r="3.3" stroke={GREEN} strokeWidth={1.5} />
+  </Icon>
+)

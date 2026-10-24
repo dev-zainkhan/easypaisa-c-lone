@@ -19,7 +19,7 @@ export default function BottomTabBar({ active = 'home' }) {
   return (
     <View style={[styles.wrap, { paddingBottom: insets.bottom }]} pointerEvents="box-none">
       <LinearGradient
-        colors={['rgba(244,244,245,0)', 'rgba(255,255,255,0.96)']}
+        colors={['#E9F3ED', '#F8FBF9']}
         style={StyleSheet.absoluteFill}
         pointerEvents="none"
       />
